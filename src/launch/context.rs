@@ -2,7 +2,6 @@ use std::path::{Path, PathBuf};
 use std::process::{Child};
 
 use crate::config::{Config, ProfileConfig};
-use crate::targets::chrome::Chrome;
 
 use winit::window::{Window, WindowBuilder};
 use winit::event_loop::EventLoop;
@@ -16,7 +15,6 @@ pub trait LaunchTarget {
 pub struct LaunchContext {
     pub config: Config,
     pub handles: Vec<LaunchHandle>,
-    events: EventLoop<()>,
     window: Window
 }
 
@@ -34,16 +32,19 @@ impl LaunchHandle {
     }
     pub fn wait(&mut self) {
         if let Some(child) = &mut self.child {
-            child.wait();
+            // TODO: error handling
+            let _ = child.wait();
         }
     }
     pub fn kill(&mut self) {
         if let Some(child) = &mut self.child {
-            child.kill();
+            // TODO: error handling
+            let _ = child.kill();
         }
         // delete temporary files
         if let Some(path) = self.temp_path.as_ref() {
-            std::fs::remove_dir_all(path);
+            // TODO: error handling
+            let _ = std::fs::remove_dir_all(path);
         }
     }
 }
@@ -59,7 +60,6 @@ impl LaunchContext {
         LaunchContext {
             config,
             handles,
-            events,
             window
         }
     }
@@ -97,14 +97,14 @@ impl LaunchContext {
         return None
     }
 
-    pub fn move_window(&self, pid: u32, index: usize) {
-        use crate::platform::win32::*;
-        if let Some(monitor) =  self.get_monitor(index) {
-            let (x, y) = monitor.pos;
-            let (width, height) = monitor.size;
-            if let Some(hwnd) = find_main_window(pid) {
-                move_window(hwnd, x, y, width, height);
-            }
-        }
-    }
+    // pub fn move_window(&self, pid: u32, index: usize) {
+    //     use crate::platform::win32::*;
+    //     if let Some(monitor) =  self.get_monitor(index) {
+    //         let (x, y) = monitor.pos;
+    //         let (width, height) = monitor.size;
+    //         if let Some(hwnd) = find_main_window(pid) {
+    //             move_window(hwnd, x, y, width, height);
+    //         }
+    //     }
+    // }
 }

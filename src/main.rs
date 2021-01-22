@@ -2,17 +2,16 @@
 
 mod launch;
 mod config;
-mod platform;
 mod targets;
 
 use config::Config;
-use launch::launch;
+use crate::launch::LaunchError;
 
-fn main() {
+fn run() -> Result<(), LaunchError> {
     let mut config_path = std::path::PathBuf::from("launch");
     let mut config = Config::default();
 
-    let mut args = std::env::args();
+    let args = std::env::args();
     let arg = args.skip(1).next();
 
     if arg.is_some() {
@@ -21,8 +20,18 @@ fn main() {
     }
 
     if config_path.exists() {
-        config = Config::load(config_path).unwrap();
+        config = Config::load(config_path).expect("failed to load configuration");
     }
 
-    launch::launch(config);
+    launch::launch(config)
+}
+
+fn main() {
+    // TODO: error codes
+    let exit_code = match run() {
+        Ok(_) => 0,
+        Err(_) => -1
+    };
+
+    std::process::exit(exit_code);
 }

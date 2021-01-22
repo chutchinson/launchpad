@@ -1,11 +1,10 @@
 
 
-use crate::config::{Config, ProfileConfig, BrowserConfig, WindowConfig};
+use crate::config::{Config, ProfileConfig};
 use crate::launch::context::{LaunchContext, LaunchHandle, LaunchTarget};
 
-use std::process::{Child, Command, ExitStatus};
+use std::process::{Command};
 use std::path::Path;
-use std::time::Duration;
 
 pub struct Chrome;
 

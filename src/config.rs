@@ -1,9 +1,6 @@
 use serde_derive::Deserialize;
 
 use std::path::Path;
-use std::fs;
-use std::io::prelude::*;
-use std::collections::HashMap;
 
 #[derive(Deserialize, Debug, Clone, Default)]
 pub struct Config {

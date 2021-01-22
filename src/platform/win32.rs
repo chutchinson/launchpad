@@ -28,7 +28,7 @@ fn is_main_window(hwnd: HWND) -> bool {
 
 pub fn move_window(hwnd: HWND, x: i32, y: i32, width: u32, height: u32) -> bool {
     unsafe {
-        let insertAfter = HWND_TOPMOST; // top most
+        let insert_after = HWND_TOPMOST; // top most
         let flags = 0;
         let result = SetWindowPos(hwnd, insertAfter,
                      x, y, width as i32, height as i32, flags);

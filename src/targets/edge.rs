@@ -1,8 +1,6 @@
-
-use crate::config::{Config, ProfileConfig, BrowserConfig, WindowConfig};
+use crate::config::{Config, ProfileConfig};
 use crate::launch::context::{LaunchContext, LaunchHandle, LaunchTarget};
 
-use std::process::{Child, Command, ExitStatus};
 use std::path::Path;
 
 pub struct Edge;
